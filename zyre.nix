@@ -3,16 +3,17 @@
 # TODO: Meta
 
 { stdenv
-, autoreconfHook
+# , autoreconfHook
 , fetchFromGitHub
-, pkgconfig
-, czmq
-, libsodium
-, zeromq
+# , pkgconfig
+, cmake
+, coast-czmq
+, coast-libsodium
+, coast-zeromq
 }:
 
 let
-  version = "2.0.0";
+  version = "1.1.0";
 in
 
 stdenv.mkDerivation {
@@ -21,11 +22,12 @@ stdenv.mkDerivation {
   src = fetchFromGitHub {
     owner = "zeromq";
     repo = "zyre";
-    rev = "ab263dac21250fc85fa8c7239973109eca2251a7";
-    sha256 = "1iwg0yqnrn8njjqv2ycifygzxrwd5g5kaszln0hy05m1c0xi44ik";
+    rev = "e1e5b95672bebac0d28173fe134c4f911e4ccf09"; #"a351468b7d313fc90c446668122365851a9c60e4";
+    sha256 = "18hz9wsrcn5h69022836xrc0ymfcxdmbwsk6285l3ryz67jrf61b";
   };
 
-  buildInputs = [ czmq libsodium zeromq ];
-  nativeBuildInputs = [ autoreconfHook pkgconfig ];
-
+  buildInputs = [ coast-libsodium coast-zeromq ];
+  nativeBuildInputs = [ cmake coast-czmq ]; #[ autoreconfHook pkgconfig ];
+  NIX_CFLAGS_COMPILE = "-Wno-error";
+  # enableParallelBuilding = true; #?
 }

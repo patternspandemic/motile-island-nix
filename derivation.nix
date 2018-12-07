@@ -3,30 +3,31 @@
 # TODO: Hitch up libs to racket? Motile/Island source...
 
 { stdenv
+, coast-czmq
+, coast-libfastlz
+, coast-libsodium
+, coast-motile-island
+, coast-zeromq
+, coast-zyre
 , curl
-, czmq
-, libfastlz
-, libsodium
 , racket
-, zeromq
-, zyre
 }:
 
 let
   inherit (stdenv.lib) makeLibraryPath;
   envLibs = [
     curl
-    czmq
-    libfastlz
-    libsodium
-    zeromq
-    zyre
+    coast-czmq
+    coast-libfastlz
+    coast-libsodium
+    coast-zeromq
+    coast-zyre
   ];
 in
 
 stdenv.mkDerivation {
   name = "motile-island-env";
-  buildInputs = [ racket ] ++ envLibs;
+  buildInputs = [ racket coast-motile-island ] ++ envLibs;
 
   shellHook = ''
     export LD_LIBRARY_PATH="${makeLibraryPath envLibs}:$LD_LIBRARY_PATH";
