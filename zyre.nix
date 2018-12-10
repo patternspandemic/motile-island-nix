@@ -3,9 +3,7 @@
 # TODO: Meta
 
 { stdenv
-# , autoreconfHook
 , fetchFromGitHub
-# , pkgconfig
 , cmake
 , coast-czmq
 , coast-libsodium
@@ -19,15 +17,16 @@ in
 stdenv.mkDerivation {
   name = "zyre-${version}";
 
-  src = fetchFromGitHub {
-    owner = "zeromq";
-    repo = "zyre";
-    rev = "e1e5b95672bebac0d28173fe134c4f911e4ccf09"; #"a351468b7d313fc90c446668122365851a9c60e4";
-    sha256 = "18hz9wsrcn5h69022836xrc0ymfcxdmbwsk6285l3ryz67jrf61b";
-  };
+  # src = fetchFromGitHub {
+  #   owner = "zeromq";
+  #   repo = "zyre";
+  #   rev = "e1e5b95672bebac0d28173fe134c4f911e4ccf09"; #"a351468b7d313fc90c446668122365851a9c60e4";
+  #   sha256 = "18hz9wsrcn5h69022836xrc0ymfcxdmbwsk6285l3ryz67jrf61b";
+  # };
+  src = ../coast2/zeromq/zyre; # LOL, use COAST's vendored & altered version of zyre :/
 
   buildInputs = [ coast-libsodium coast-zeromq ];
-  nativeBuildInputs = [ cmake coast-czmq ]; #[ autoreconfHook pkgconfig ];
+  nativeBuildInputs = [ cmake coast-czmq ];
   NIX_CFLAGS_COMPILE = "-Wno-error";
   # enableParallelBuilding = true; #?
 }
